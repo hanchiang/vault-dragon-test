@@ -7,7 +7,7 @@
     "node": "8.11.4"
   },
   "scripts": {
-    "start": "forever start index.js | ./node_modules/bunyan/bin/bunyan",
+    "start": "forever start index.js",
     "stop": "forever stop index.js",
     "dev": "NODE_ENV=test nodemon index.js | ./node_modules/bunyan/bin/bunyan",
     "test": "NODE_ENV=test mocha 'test/**/*.test.js' --timeout 5000",
