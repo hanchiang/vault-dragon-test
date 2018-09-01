@@ -6,12 +6,6 @@ let client;
 
 exports.create = () => {
   if (!client) {
-    const env = process.env.NODE_ENV || 'development';
-    if (env === 'test' || 'development') {
-      require('dotenv').config({ path: '.env.test' })
-    } else {
-      require('dotenv');
-    }
     client = redis.createClient({
       host: process.env.REDIS_HOST,
       port: process.env.REDIS_PORT,
