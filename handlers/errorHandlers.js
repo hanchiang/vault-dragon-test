@@ -1,3 +1,4 @@
+const log = require('../utils/logging');
 
 exports.catchErrors = (fn) => {
   return function(req, res, next) {
@@ -12,6 +13,7 @@ exports.notFound = (req, res, next) => {
 };
 
 exports.productionErrors = (err, req, res, next) => {
+  log.error({ err });
   res.status(err.status || 500).json({
     error: {
       type: err.name,

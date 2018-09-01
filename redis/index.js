@@ -1,6 +1,7 @@
 const { promisify } = require('util');
 
 const redis = require('redis');
+const log = require('../utils/logging');
 
 let client;
 
@@ -14,7 +15,7 @@ exports.create = () => {
   }
 
   client.on('error', (err) => {
-    console.log('Error ' + err);
+    log.error('Error ' + err);
   });
 };
 
@@ -36,7 +37,7 @@ exports.getAsync = () => {
 exports.delete = () => {
   if (client) {
     client.flushdb((err, res) => {
-      console.log('Delete:' + res);
+      log.info('Delete:' + res);
     })
   }
 }
