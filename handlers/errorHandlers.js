@@ -12,7 +12,7 @@ exports.notFound = (req, res, next) => {
 };
 
 exports.productionErrors = (err, req, res, next) => {
-  res.status(err.status || 500).send({
+  res.status(err.status || 500).json({
     error: {
       type: err.name,
       msg: err.message

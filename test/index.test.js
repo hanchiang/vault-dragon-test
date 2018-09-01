@@ -31,6 +31,14 @@ describe('Route controllers test', () => {
     })
   })
 
+  describe('Unknown route', () => {
+    it('Should return error for unknown route', (done) => {
+      request(server)
+        .get('/random')
+        .expect(404, done);
+    })
+  })
+
   describe('GET /object/key', () => {
     it('Should get the latest value of \'mykey\'', (done) => {
       request(server)
