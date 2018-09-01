@@ -1,22 +1,15 @@
-const { promisify } = require('util');
-
 const moment = require('moment');
 
-const redisClient = require('../redis').get();
-const zaddAsync = promisify(redisClient.zadd).bind(redisClient);
-const zrangeAsync = promisify(redisClient.zrange).bind(redisClient);
-const zrangebyscoreAsync = promisify(redisClient.zrangebyscore).bind(redisClient);
-const zscanAsync = promisify(redisClient.zscan).bind(redisClient);
+const myRedis = require('../redis');
 const errorTransform = require('../tranforms/errorTransform');
 
 const timeFormat = 'h.mma';
 
 exports.addKey = async (req, res) => {
-  const keys = Object.keys(req.body);
-  const values = Object.values(req.body);
+  const { zaddAsync } = myRedis.getAsync();
 
-  const key = keys[0]
-  const value = values[0];
+  const key = Object.keys(req.body)[0]
+  const value = Object.values(req.body)[0];
 
   await zaddAsync(key, req.time, JSON.stringify(value))
   res.send({
@@ -27,13 +20,12 @@ exports.addKey = async (req, res) => {
 };
 
 exports.getValue = async (req, res) => {
-  console.log(req.time);
+  const { zrangeAsync, zrangebyscoreAsync, zscan } = myRedis.getAsync();
   const { key } = req.params;
   const { timestamp } = req.query;
   let value = '';
 
-  // const result = await zscanAsync(key, 0);
-  // console.log(result);
+  // await myRedis.display(key);
 
   if (timestamp) {
     const result = await zrangebyscoreAsync(key, 0, timestamp);

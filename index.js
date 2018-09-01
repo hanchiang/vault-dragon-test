@@ -1,4 +1,5 @@
 const app = require('./app');
+require('./redis').create();
 
 const port = 3000;
 const server = app.listen(port, () => {

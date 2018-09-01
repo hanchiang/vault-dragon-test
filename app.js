@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 
 const moment = require('moment');
 
-require('./redis').create();
 const routes = require('./routes/index');
 const errorHandlers = require('./handlers/errorHandlers');
 
