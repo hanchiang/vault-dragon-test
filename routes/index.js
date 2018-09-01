@@ -6,6 +6,7 @@ const routeController = require('../controllers');
 const validator = require('../utils/validator');
 
 router.get('/object/:key', 
+  validator.validateTimestamp,
   catchErrors(routeController.getValue));
 
 router.post('/object',

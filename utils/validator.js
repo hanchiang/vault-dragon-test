@@ -1,5 +1,14 @@
 const errorTransform = require('../tranforms/errorTransform');
 
+exports.validateTimestamp = (req, res, next) => {
+  const { timestamp } = req.query;
+  if (isNaN(timestamp)) {
+    throw errorTransform('timestamp must be a number', 400);
+  } else if (timestamp < 0) {
+    throw errorTransform('timestamp must be a non-negative number', 400);
+  }
+  next();
+}
 
 exports.validateAddKey = (req, res, next) => {
   let keys = Object.keys(req.body);

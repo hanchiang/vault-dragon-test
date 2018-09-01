@@ -36,11 +36,6 @@ exports.getValue = async (req, res) => {
   // console.log(result);
 
   if (timestamp) {
-    // validate timestamp
-    if (isNaN(timestamp)) {
-      throw errorTransform('timestamp must be a number', 400);
-    }
-
     const result = await zrangebyscoreAsync(key, 0, timestamp);
     if (result.length === 0) {
       throw errorTransform('No result found', 404);
