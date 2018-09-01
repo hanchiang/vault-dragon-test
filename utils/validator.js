@@ -2,6 +2,8 @@ const errorTransform = require('../tranforms/errorTransform');
 
 exports.validateTimestamp = (req, res, next) => {
   const { timestamp } = req.query;
+  if (!timestamp) return next();
+
   if (isNaN(timestamp)) {
     throw errorTransform('timestamp must be a number', 400);
   } else if (timestamp < 0) {
