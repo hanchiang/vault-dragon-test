@@ -21,21 +21,18 @@ exports.validateAddKey = (req, res, next) => {
     throw errorTransform('Body must contain a key value pair', 400);
   }
 
-  if (typeof values[0] === 'string') {
-    next();
-  } else {
-    while (typeof values[0] === 'object' && keys.length !== 0 && values.length !== 0) {
+  // Check for null value, and objects with more than 1 key
+  while(keys.length !== 0 && values.length !== 0) {
+    if (keys.length > 1) {
+      throw errorTransform('JSON value can only contain 1 key per key value', 400);
+    } else if (typeof values[0] === 'string') {
+      return next();
+    } else if (values[0] === null) {
+      throw errorTransform('null is not a valid value', 400);
+    } else {
       keys = Object.keys(values[0]);
       values = Object.values(values[0]);
-
-      // If value is a nested object, check that it has only one key
-      if (keys.length > 1) {
-        throw errorTransform('JSON value can only contain 1 key per key value', 400);
-      }
-      if (values[0] === null) {
-        throw errorTransform('null is not a valid value', 400);
-      }
     }
-    next();
   }
+  return next();
 }

@@ -32,6 +32,8 @@ exports.getAsync = () => {
       zaddAsync: promisify(client.zadd).bind(client),
       zrangeAsync: promisify(client.zrange).bind(client),
       zrangebyscoreAsync: promisify(client.zrangebyscore).bind(client),
+      delAsync: promisify(client.del).bind(client),
+      zscanAsync: promisify(client.zscan).bind(client)
     }
   }
 }
@@ -40,15 +42,7 @@ exports.getAsync = () => {
 exports.delete = () => {
   if (client) {
     client.flushdb((err, res) => {
-      console.log(res);
+      console.log('Delete:' + res);
     })
   }
 }
-
-exports.display = async (key) => {
-  const zscan = promisify(client.zscan).bind(client);
-  const result = await zscan(key, 0);
-  console.log(result);
-}
-
-

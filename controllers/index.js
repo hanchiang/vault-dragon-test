@@ -12,7 +12,7 @@ exports.addKey = async (req, res) => {
   const value = Object.values(req.body)[0];
 
   await zaddAsync(key, req.time, JSON.stringify(value))
-  res.send({
+  res.json({
     key,
     value,
     timestamp: moment.unix(req.time).format(timeFormat)
@@ -20,12 +20,10 @@ exports.addKey = async (req, res) => {
 };
 
 exports.getValue = async (req, res) => {
-  const { zrangeAsync, zrangebyscoreAsync, zscan } = myRedis.getAsync();
+  const { zrangeAsync, zrangebyscoreAsync } = myRedis.getAsync();
   const { key } = req.params;
   const { timestamp } = req.query;
   let value = '';
-
-  // await myRedis.display(key);
 
   if (timestamp) {
     const result = await zrangebyscoreAsync(key, 0, timestamp);
@@ -40,8 +38,5 @@ exports.getValue = async (req, res) => {
     }
     value = JSON.parse(result[0]);
   }
-  res.send({
-    value: value
-  })
-  
+  res.json({value});
 }
