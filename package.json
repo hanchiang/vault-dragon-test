@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node index.js | ./node_modules/bunyan/bin/bunyan",
-    "dev": "NODE_ENV=test nodemon index.js | ./node_modules/bunyan/bin/bunyan",
+    "dev": "NODE_ENV=development nodemon index.js | ./node_modules/bunyan/bin/bunyan",
     "test": "NODE_ENV=test mocha 'test/**/*.test.js' --timeout 5000",
     "test-watch": "nodemon --exec \"npm test\""
   },
@@ -19,6 +19,7 @@
     "bunyan": "^1.8.12",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
+    "helmet": "^3.13.0",
     "moment": "^2.22.2",
     "redis": "^2.8.0"
   },

@@ -28,16 +28,15 @@ exports.getAsync = () => {
       zrangeAsync: promisify(client.zrange).bind(client),
       zrangebyscoreAsync: promisify(client.zrangebyscore).bind(client),
       delAsync: promisify(client.del).bind(client),
-      zscanAsync: promisify(client.zscan).bind(client)
+      zscanAsync: promisify(client.zscan).bind(client),
     }
   }
 }
 
-// TODO: For development only
-exports.delete = () => {
+exports.delete = async () => {
   if (client) {
-    client.flushdb((err, res) => {
-      log.info('Delete:' + res);
-    })
+    const flushdbAsync = promisify(client.flushdb).bind(client);
+    const res = await flushdbAsync();
+    log.info('Delete: ' + res);
   }
 }

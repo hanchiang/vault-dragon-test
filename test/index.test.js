@@ -10,12 +10,16 @@ const otherKey = 'myotherkey';
 let server, zaddAsync, zrangeAsync, zrangebyscoreAsync, delAsync, zscanAsync;
 
 describe('Route controllers test', () => {
-  beforeEach(() => {
-    server = makeServer();
-    ({ 
-      zaddAsync, zrangeAsync, zrangebyscoreAsync,
-      delAsync, zscanAsync
-    } = myRedis.getAsync());
+  beforeEach((done) => {
+    makeServer()
+      .then(s => { 
+        server = s; 
+        ({
+          zaddAsync, zrangeAsync, zrangebyscoreAsync,
+          delAsync, zscanAsync
+        } = myRedis.getAsync());
+        done();
+      })
   });
 
   beforeEach(async () => {
@@ -25,9 +29,9 @@ describe('Route controllers test', () => {
     await Promise.all(otherData.map(entry => zaddAsync(otherKey, entry.score, entry.member)))
   })
 
-  afterEach((done) => {
-    server.close(() => {
-      done();
+  afterEach(() => {
+    server.close(async () => {
+      await myRedis.delete();
     })
   })
 

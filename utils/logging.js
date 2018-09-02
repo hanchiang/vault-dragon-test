@@ -8,4 +8,8 @@ const log = bunyan.createLogger({
   }
 });
 
+// Disable logging when running tests
+if (process.env.NODE_ENV === 'test') {
+  log.level(bunyan.FATAL + 1);
+}
 module.exports = log;
