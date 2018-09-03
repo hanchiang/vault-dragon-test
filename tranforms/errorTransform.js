@@ -1,5 +1,5 @@
 
-module.exports = (message, status, cb) => {
+module.exports = (message, status) => {
   const err = new Error(message);
   err.status = status;
   return err;
