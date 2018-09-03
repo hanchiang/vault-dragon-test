@@ -19,8 +19,6 @@ exports.create = () => {
   });
 };
 
-exports.get = () => client;
-
 exports.getAsync = () => {
   if (client) {
     return {
