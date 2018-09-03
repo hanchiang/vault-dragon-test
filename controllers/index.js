@@ -1,12 +1,12 @@
 const moment = require('moment');
 
-const myRedis = require('../redis');
+const redis = require('../redis');
 const errorTransform = require('../tranforms/errorTransform');
 
 const timeFormat = 'h.mma';
 
 exports.addKey = async (req, res) => {
-  const { zaddAsync } = myRedis.getAsync();
+  const { zaddAsync } = redis.getAsync();
 
   const key = Object.keys(req.body)[0]
   const value = Object.values(req.body)[0];
@@ -20,7 +20,7 @@ exports.addKey = async (req, res) => {
 };
 
 exports.getValue = async (req, res) => {
-  const { zrangeAsync, zrangebyscoreAsync } = myRedis.getAsync();
+  const { zrangeAsync, zrangebyscoreAsync } = redis.getAsync();
   const { key } = req.params;
   const { timestamp } = req.query;
   let value = '';

@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 const request = require('supertest');
 
 const makeServer = require('./factory');
-const myRedis = require('../redis');
+const redis = require('../redis');
 const { data, otherData } = require('./data');
 
 const key = 'mykey';
@@ -17,7 +17,7 @@ describe('Route controllers test', () => {
         ({
           zaddAsync, zrangeAsync, zrangebyscoreAsync,
           delAsync, zscanAsync
-        } = myRedis.getAsync());
+        } = redis.getAsync());
         done();
       })
   });
@@ -31,7 +31,7 @@ describe('Route controllers test', () => {
 
   afterEach(() => {
     server.close(async () => {
-      await myRedis.delete();
+      await redis.delete();
     })
   })
 
